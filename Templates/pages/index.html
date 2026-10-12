@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ first_name|capfirst }} | Student Profile</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #6dd5ed 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+            color: #2d3748;
+        }
+
+        .card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 620px;
+            border-radius: 18px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            text-align: center;
+            padding: 36px 20px 28px;
+        }
+
+        .avatar {
+            width: 96px;
+            height: 96px;
+            margin: 0 auto 14px;
+            border-radius: 50%;
+            background: #fff;
+            color: #2a5298;
+            font-size: 42px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .header h1 { font-size: 28px; letter-spacing: 0.5px; }
+        .header p  { opacity: 0.85; margin-top: 6px; }
+
+        .info { list-style: none; padding: 10px 28px; }
+
+        .info li {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 15px 0;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .info li:last-child { border-bottom: none; }
+
+        .label { font-weight: 600; color: #4a5568; white-space: nowrap; }
+        .value { text-align: right; color: #1a202c; word-break: break-word; }
+        .muted { color: #a0aec0; font-style: italic; }
+
+        .section-title {
+            padding: 6px 28px 0;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #2a5298;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 14px 28px 26px;
+        }
+
+        .skill {
+            background: #ebf4ff;
+            color: #2a5298;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            background: #f7fafc;
+            padding: 14px;
+            font-size: 13px;
+            color: #718096;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <div class="avatar">{{ first_name|capfirst|first }}</div>
+            <!-- capfirst + add: capitalise the first name, then join the last name -->
+            <h1>{{ first_name|capfirst|add:" "|add:last_name }}</h1>
+            <p>{{ major }} Student</p>
+        </div>
+
+        <ul class="info">
+            <li>
+                <span class="label">Full Name</span>
+                <span class="value">{{ first_name|capfirst|add:" "|add:last_name }}</span>
+            </li>
+            <li>
+                <span class="label">Student ID</span>
+                <span class="value">{{ student_id|stringformat:"s" }}</span>
+            </li>
+            <li>
+                <span class="label">Address</span>
+                <span class="value">{{ address|upper }}</span>
+            </li>
+            <li>
+                <span class="label">Email</span>
+                <span class="value {% if not email %}muted{% endif %}">{{ email|default:"No email provided" }}</span>
+            </li>
+            <li>
+                <span class="label">Date of Birth</span>
+                <span class="value">{{ date_of_birth|date:"d F Y" }} ({{ date_of_birth|timesince }} ago)</span>
+            </li>
+            <li>
+                <span class="label">University</span>
+                <span class="value">{{ university }}</span>
+            </li>
+            <li>
+                <span class="label">Faculty</span>
+                <span class="value">{{ faculty }}</span>
+            </li>
+            <li>
+                <span class="label">Level</span>
+                <span class="value">{{ level }}</span>
+            </li>
+        </ul>
+
+        <h2 class="section-title">Skills</h2>
+        <div class="skills">
+            {% for skill in skills %}
+                <span class="skill">{{ skill }}</span>
+            {% endfor %}
+        </div>
+
+        <footer>Built with Django &middot; {{ university }}</footer>
+    </div>
+</body>
+</html>
